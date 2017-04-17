@@ -14,7 +14,7 @@ namespace Puissance4_SABRY_Soumaya
             gui.changerMessage(" PUISSANCE 4");
             gui.changerMessage("Nom du Joueur " + nombreDejoueur + " ==> ");
             string nomJoueur = Console.ReadLine();
-            gui.changerMessage("Appuyer sue ENTRE pour Commencer....");
+            gui.changerMessage("Appuyer sue ENTRE pour Continuer....");
             Console.ReadKey();
             return nomJoueur;
         }
@@ -86,13 +86,13 @@ namespace Puissance4_SABRY_Soumaya
                 {
                     Console.WriteLine("Erreur !!!!");
                     gui.changerMessage("Mauvais nombre " + nomJoueur.ToUpper() + " Veuillez choisir un numero de la colonne ==>");
-                    choise1 = int.Parse(Console.ReadLine());
+                    choise1 = TryCatch();
 
                 }
                 while (choise1 < 0 || choise1 > matrice.GetLength(1))
                 {
                     gui.changerMessage("Mauvais nombre " + nomJoueur.ToUpper() + " Veuillez choisir un numero de la colonne ==>");
-                    choise1 = int.Parse(Console.ReadLine());
+                    choise1 = TryCatch();
                 }
                 int i = matrice.GetLength(0) - 1;
                 int indexChoisi = choise1 - 1;
@@ -169,8 +169,7 @@ namespace Puissance4_SABRY_Soumaya
             }
             if (estrempli == true)
             {
-                Console.ReadKey();
-                gui.changerMessage("la 1ere ligne est rempli totalement alors elle va disparetre ");
+                gui.changerMessage("la 1ere ligne est rempli totalement alors elle va disparetre, Appuyer sur ENTRE pour Continue... ");
                 for (int i = (matrice.GetLength(1) - 1); i >= 0; i--)
                 {
                     for (int j = (matrice.GetLength(0) - 1); j > 0; j--)
@@ -201,7 +200,7 @@ namespace Puissance4_SABRY_Soumaya
                     {
                         for (int j = (matrice.GetLength(0) - 1); j > 0; j--)
                         {
-                            if (matrice[j, colonne] == 2)
+                          /*  if (matrice[j, colonne] == 2)
                             {
                                 if (2 == matrice[j, (colonne - 1)])
                                 {
@@ -210,11 +209,11 @@ namespace Puissance4_SABRY_Soumaya
                                         choiseOrdi = (colonne - 1);
                                     }
                                 }
-                            }
-                            //  if (checkColumns(matrice, j, colonne, 2) && checkLignes(matrice, j, colonne, 2))
-                            //      choiseOrdi = colonne - 1;
+                            }*/
+                             if (checkColumns(matrice, j, colonne, 2) && checkLignes(matrice, j, colonne, 2))
+                                 choiseOrdi = colonne - 1;
 
-                            if (matrice[j, colonne] == 2)
+                           /* if (matrice[j, colonne] == 2)
                             {
                                 if (2 == matrice[j, (colonne - 1)])
                                 {
@@ -223,24 +222,33 @@ namespace Puissance4_SABRY_Soumaya
                                         choiseOrdi = colonne;
                                     }
                                 }
-                            }
-                            //  if (checkColumns(matrice, j, colonne+1, 2) && checkLignes(matrice, j, colonne, 2))
-                            //      choiseOrdi = colonne;
+                            }*/
+                              if (checkColumns(matrice, j, colonne+1, 2) && checkLignes(matrice, j, colonne, 2))
+                                 choiseOrdi = colonne;
 
-                            if (matrice[j, colonne] == 2)
+                            /* if (matrice[j, colonne] == 2)
+                             {
+                                 if (2 == matrice[j, (colonne - 1)])
+                                 {
+                                     choiseOrdi = colonne;
+                                 }
+                             }*/
+                            if (checkColumns(matrice, j, colonne + 1, 2))
                             {
-                                if (2 == matrice[j, (colonne - 1)])
-                                {
-                                    choiseOrdi = colonne;
-                                }
+                                choiseOrdi = colonne;
                             }
-                            if (matrice[j, colonne] == 2)
+                            if (checkLignes(matrice, j, colonne, 2))
                             {
-                                if (2 == matrice[(j - 1), colonne])
-                                {
-                                    choiseOrdi = (colonne - 1);
-                                }
+                                choiseOrdi = colonne + 1;
                             }
+                            /* if (matrice[j, colonne] == 2)
+                             {
+                                 if (2 == matrice[(j - 1), colonne])
+                                 {
+                                     choiseOrdi = (colonne - 1);
+                                 }
+                             }*/
+                            
 
                         }
                     }
@@ -261,13 +269,8 @@ namespace Puissance4_SABRY_Soumaya
                     }
                     i--;
                 }
-                if (estChanger == false)
-                {
-                    gui.changerMessage("la colonne est totalement rempli ...");
-                }
             }
             gui.rafraichirGrille();
-            Console.ReadKey();
 
 
         }
@@ -287,6 +290,40 @@ namespace Puissance4_SABRY_Soumaya
                     break;
             }
         }
+        static int TryCatch ()
+        {
+            int reponse = 0;
+            try
+            {
+                reponse = int.Parse(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Erreur");
+            }
+            return reponse;
+        }
+        static bool checkColumns(int[,] matrice, int ligne, int colonne, int value)
+        {
+            Console.WriteLine("Columns"+ligne+","+colonne);
+            bool result = false;
+            if (value == matrice[ligne, colonne] && matrice[ligne, (colonne - 1)] == value)
+            {
+                result = true;
+            }
+            return result;
+        }
+        static bool checkLignes(int[,] matrice, int ligne, int colonne, int value)
+        {
+            Console.WriteLine("Lignes "+ ligne + "," + colonne);
+
+            bool result = false;
+            if (matrice[ligne, colonne] == matrice[ligne - 1, colonne] && matrice[ligne, colonne] == value)
+            {
+                result = true;
+            }
+            return result;
+        }
         [System.STAThreadAttribute()]
         static void Main(string[] args)
         {
@@ -296,17 +333,7 @@ namespace Puissance4_SABRY_Soumaya
                 int[,] matriceGame = new int[6, 7];
                 Fenetre gui = new Fenetre(matriceGame);
                 gui.changerMessage(" Veuillez choisir ===> {1} 1 Joueur {2} 2 Joueur  ");
-                int reponse = 0;
-                try
-                {
-                    reponse = int.Parse(Console.ReadLine());
-                }
-                catch
-                {
-                    Console.WriteLine("Erreur");
-                }
-
-
+                int reponse = TryCatch();
                 for (int i = 0; i < matriceGame.GetLength(0); i++)
                 {
                     for (int i2 = 0; i2 < matriceGame.GetLength(1); i2++)
@@ -317,23 +344,14 @@ namespace Puissance4_SABRY_Soumaya
                 gui.rafraichirGrille();
                 bool estgagant = false;
                 int compteur = 0;
-                string nomJoueur1 = " ";
-                string nomJoueur2 = " ";
+                string nomJoueur1 = "Joueur1 ";
+                string nomJoueur2 = "Joueur 2 ";
                 int reponse2 = 0;
                 switch (reponse)
                 {
                     case 1:
                         gui.changerMessage("Veulliez choisir un niveau ==> {1}Facile {2}Moyenne {3}Difficile");
-
-                        try
-                        {
-                            reponse2 = int.Parse(Console.ReadLine());
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Erreur");
-                        }
-
+                        reponse2=TryCatch();
                         nomJoueur1 = Interface(gui, 1);
                         nomJoueur2 = "PC";
                         break;
@@ -342,7 +360,7 @@ namespace Puissance4_SABRY_Soumaya
                         nomJoueur2 = Interface(gui, 2);
                         break;
                 }
-                while (compteur != 42 && estgagant == false)
+                while (compteur != 42 && estgagant == false && (reponse==2 || reponse == 1 ))
                 {
                     DemendeJoueur(matriceGame, nomJoueur1, gui, 1);
                     estgagant = PartieGagant(matriceGame, nomJoueur1, nomJoueur2, gui);
@@ -358,9 +376,6 @@ namespace Puissance4_SABRY_Soumaya
                             case 2:
                                 DemendeJoueur(matriceGame, nomJoueur2, gui, 2);
                                 break;
-                            default:
-                                IA(gui, matriceGame, 1);
-                                break;
                         }
                         estgagant = PartieGagant(matriceGame, nomJoueur1, nomJoueur2, gui);
                         LigneDispart(matriceGame, gui);
@@ -372,36 +387,18 @@ namespace Puissance4_SABRY_Soumaya
                     }
 
                 }
-                string reponseUtilisateur = " ";
-                while (!reponseUtilisateur.Equals("yes") && !reponseUtilisateur.Equals("y") && !reponseUtilisateur.Equals("no") && !reponseUtilisateur.Equals("n"))
+                string ilrejoue = " ";
+                while (!ilrejoue.Equals("yes") && !ilrejoue.Equals("y") && !ilrejoue.Equals("no") && !ilrejoue.Equals("n"))
                 {
                     Console.WriteLine("Vouliez vous rejouer ? [Yes|No]");
-                    reponseUtilisateur = Console.ReadLine().ToLower();
+                    ilrejoue = Console.ReadLine().ToLower();
                 }
-                repeat = reponseUtilisateur;
+                repeat = ilrejoue;
             }
 
             Console.ReadKey();
         }
-        static bool checkColumns(int[,] matrice, int ligne, int colonne, int value)
-        {
-            bool result = false;
-            if (value == matrice[ligne, colonne] && matrice[ligne, colonne] == value)
-            {
-                result = true;
-            }
-            return result;
-        }
-        static bool checkLignes(int[,] matrice, int ligne, int colonne, int value)
-        {
-            bool result = false;
-            if (matrice[ligne, colonne] == matrice[ligne - 1, colonne] && matrice[ligne, colonne] == value)
-            {
-                result = true;
-            }
-            return result;
-        }
-        static void
+
 
     }
 }
