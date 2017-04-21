@@ -14,11 +14,10 @@ namespace Puissance4_SABRY_Soumaya
             gui.changerMessage(" PUISSANCE 4");
             gui.changerMessage("Nom du Joueur " + nombreDejoueur + " ==> ");
             string nomJoueur = Console.ReadLine();
-            gui.changerMessage("Appuyer sue ENTRE pour Continuer....");
-            Console.ReadKey();
+
             return nomJoueur;
         }
-        /* static void AfficherMatrice(int[,] matrice)
+        static void AfficherMatrice(int[,] matrice)
          {
              if (matrice == null)
              {
@@ -70,7 +69,7 @@ namespace Puissance4_SABRY_Soumaya
                      Console.WriteLine("    ----------------------");
                  }
              }
-         }*/
+         }
         static void DemendeJoueur(int[,] matrice, string nomJoueur, Fenetre gui, int nombreDejoueur)
         {
             bool estChanger = false;
@@ -190,84 +189,153 @@ namespace Puissance4_SABRY_Soumaya
         {
             bool estChanger = false;
             Random rndOrdi = new Random();
+            int choiseOrdi;
             while (estChanger == false)
             {
-                int choiseOrdi = rndOrdi.Next(1, 8);
+                choiseOrdi = rndOrdi.Next(0,6);
                 #region reponse2
-                if (level == 2 || level == 3)
+                /*  if (level == 2 )
+                   {
+                       for (int colonne = (matrice.GetLength(1) - 1); colonne > 0; colonne--)
+                       {
+                           for (int ligne = (matrice.GetLength(0) - 1); ligne > 0; ligne--)
+                           {
+                              #region
+                              /* if (matrice[ligne, colonne] == 2)
+                                 {
+                                     if (2 == matrice[ligne, (colonne - 1)])
+                                     {
+                                         if (2 == matrice[(ligne - 1), colonne])
+                                         {
+                                             choiseOrdi = (colonne - 1);
+                                         }
+                                     }
+                                 }
+                            if (matrice[ligne, colonne] == 2)
+                             {
+                                 if (2 == matrice[ligne, (colonne - 1)])
+                                 {
+                                     if (2 == matrice[(ligne - 1), (colonne - 1)])
+                                     {
+                                         choiseOrdi = colonne;
+                                     }
+                                 }
+                             }
+                            if (matrice[ligne, colonne] == 2)
+                                 {
+                                     if (2 == matrice[ligne, (colonne - 1)])
+                                     {
+                                         choiseOrdi = colonne;
+                                     }
+                                 }
+                           if (matrice[ligne, colonne] == 2)
+                            {
+                                if (2 == matrice[(ligne - 1), colonne])
+                                {
+                                    choiseOrdi = (colonne - 1);
+                                }
+                            }//
+                              if (checkColumns(matrice, ligne, colonne, 2) && checkLignes(matrice, ligne, colonne, 2))
+                                       choiseOrdi = colonne - 1;
+
+                              if (checkLignes(matrice, ligne, colonne, 2))
+                                  {
+                                      choiseOrdi = colonne + 1;
+                                  }
+                               #endregion
+                               AfficherMatrice(matrice);
+                               Console.Write(matrice[ligne, colonne]);
+                              if (matrice[ligne, colonne] == 2)
+                              {
+                                  choiseOrdi = colonne;
+                              }
+                          }
+                       }
+                   }
+      */
+                #endregion
+                #region reponse2Ver2
+                bool sontDeux = false;
+                if (level == 2)
                 {
                     for (int colonne = (matrice.GetLength(1) - 1); colonne > 0; colonne--)
                     {
-                        for (int j = (matrice.GetLength(0) - 1); j > 0; j--)
+                        for (int ligne = (matrice.GetLength(0) - 1); ligne > 0; ligne--)
                         {
-                          /*  if (matrice[j, colonne] == 2)
-                            {
-                                if (2 == matrice[j, (colonne - 1)])
-                                {
-                                    if (2 == matrice[(j - 1), colonne])
-                                    {
-                                        choiseOrdi = (colonne - 1);
-                                    }
-                                }
-                            }*/
-                             if (checkColumns(matrice, j, colonne, 2) && checkLignes(matrice, j, colonne, 2))
-                                 choiseOrdi = colonne - 1;
 
-                           /* if (matrice[j, colonne] == 2)
+                            if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 2 && matrice[ligne, (colonne - 1)] == 2 && matrice[(ligne - 1), (colonne - 1)] == 0)
                             {
-                                if (2 == matrice[j, (colonne - 1)])
-                                {
-                                    if (2 == matrice[(j - 1), (colonne - 1)])
-                                    {
-                                        choiseOrdi = colonne;
-                                    }
-                                }
-                            }*/
-                              if (checkColumns(matrice, j, colonne+1, 2) && checkLignes(matrice, j, colonne, 2))
-                                 choiseOrdi = colonne;
-
-                            /* if (matrice[j, colonne] == 2)
-                             {
-                                 if (2 == matrice[j, (colonne - 1)])
-                                 {
-                                     choiseOrdi = colonne;
-                                 }
-                             }*/
-                            if (checkColumns(matrice, j, colonne + 1, 2))
-                            {
-                                choiseOrdi = colonne;
+                                choiseOrdi = colonne - 1;
                             }
-                            if (checkLignes(matrice, j, colonne, 2))
+                            else if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 2 && matrice[ligne, (colonne + 1)] == 2 && matrice[(ligne - 1), (colonne + 1)] == 0)
                             {
                                 choiseOrdi = colonne + 1;
                             }
-                            /* if (matrice[j, colonne] == 2)
-                             {
-                                 if (2 == matrice[(j - 1), colonne])
-                                 {
-                                     choiseOrdi = (colonne - 1);
-                                 }
-                             }*/
-                            
-
+                            else
+                            {
+                                if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 2 && matrice[ligne, (colonne - 1)] == 0 )
+                                {
+                                    choiseOrdi = colonne - 1;
+                                }
+                                else if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 2 && matrice[ligne, (colonne + 1)] == 0 )
+                                {
+                                    choiseOrdi = colonne + 1;
+                                }
+                                
+                                else if (sontDeux == false &&matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 0)
+                                {
+                                    choiseOrdi = colonne;
+                                    sontDeux = true;
+                                }
+                                //{
+                                //    if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 0 && matrice[ligne, (colonne - 1)] == 0 && matrice[(ligne - 1), (colonne - 1)] == 0)
+                                //    {
+                                //        choiseOrdi = colonne ;
+                                //    }
+                                //    //else if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 0 && matrice[ligne, (colonne + 1)] == 0 && matrice[(ligne - 1), (colonne + 1)] == 0)
+                                //    //{
+                                //    //    choiseOrdi = colonne + 1;
+                                //    //}
+                                //}
+                            }
                         }
                     }
                 }
-
                 #endregion
-                gui.changerMessage("La IA a choisi le colonne " + choiseOrdi + " Appyez sur Enter");
+                #region reponse3
+                if ( level == 3)
+                {
+                    for (int colonne = (matrice.GetLength(1) - 1); colonne > 0; colonne--)
+                    {
+                        for (int ligne = (matrice.GetLength(0) - 1); ligne > 0; ligne--)
+                        {
 
+                             if (matrice[ligne, colonne] == 1 && matrice[(ligne - 1), colonne] == 1 && matrice[ligne, (colonne - 1)] == 1 && matrice[(ligne - 1), (colonne - 1)] == 0)
+                            {
+                                choiseOrdi = colonne - 1;
+                            }
+                            if (matrice[ligne, colonne] == 1 && matrice[(ligne-1), colonne] == 1 && matrice[ligne, (colonne +1)] == 1 && matrice[(ligne - 1), (colonne + 1)] == 0)
+                            {
+                                choiseOrdi = colonne+1;
+                            }
+                        }
+                    }
+                }
+                #endregion
+                gui.changerMessage("La IA a choisi le colonne " + (choiseOrdi + 1 ) + " Appyez sur Enter");
                 int i = matrice.GetLength(0) - 1;
-                int indexChoisi = choiseOrdi - 1;
-
                 while (estChanger == false && i >= 0)
                 {
-                    if (matrice[i, indexChoisi] == 0)
+                    if (matrice[i, choiseOrdi] == 0)
                     {
-                        matrice[i, indexChoisi] = 2;
+                        matrice[i, choiseOrdi] = 2;
                         estChanger = true;
                     }
                     i--;
+                }
+                if (estChanger == false)
+                {
+                    choiseOrdi = rndOrdi.Next(1, 8);
                 }
             }
             gui.rafraichirGrille();
@@ -285,8 +353,8 @@ namespace Puissance4_SABRY_Soumaya
                 case 2:
                     IA(gui, matrice, reponse);
                     break;
-                default:
-                    IA(gui, matrice, 1);
+                case 3:
+                    IA(gui, matrice, reponse);
                     break;
             }
         }
@@ -310,6 +378,7 @@ namespace Puissance4_SABRY_Soumaya
             if (value == matrice[ligne, colonne] && matrice[ligne, (colonne - 1)] == value)
             {
                 result = true;
+                Console.WriteLine(result);
             }
             return result;
         }
@@ -321,6 +390,7 @@ namespace Puissance4_SABRY_Soumaya
             if (matrice[ligne, colonne] == matrice[ligne - 1, colonne] && matrice[ligne, colonne] == value)
             {
                 result = true;
+                Console.WriteLine(result);
             }
             return result;
         }
@@ -344,7 +414,7 @@ namespace Puissance4_SABRY_Soumaya
                 gui.rafraichirGrille();
                 bool estgagant = false;
                 int compteur = 0;
-                string nomJoueur1 = "Joueur1 ";
+                string nomJoueur1 = "Joueur 1 ";
                 string nomJoueur2 = "Joueur 2 ";
                 int reponse2 = 0;
                 switch (reponse)
@@ -354,10 +424,14 @@ namespace Puissance4_SABRY_Soumaya
                         reponse2=TryCatch();
                         nomJoueur1 = Interface(gui, 1);
                         nomJoueur2 = "PC";
+                        gui.changerMessage("Appuyer sue ENTRE pour Commancer....");
+                        Console.ReadKey();
                         break;
                     case 2:
                         nomJoueur1 = Interface(gui, 1);
                         nomJoueur2 = Interface(gui, 2);
+                        gui.changerMessage("Appuyer sue ENTRE pour Commancer....");
+                        Console.ReadKey();
                         break;
                 }
                 while (compteur != 42 && estgagant == false && (reponse==2 || reponse == 1 ))
@@ -390,7 +464,8 @@ namespace Puissance4_SABRY_Soumaya
                 string ilrejoue = " ";
                 while (!ilrejoue.Equals("yes") && !ilrejoue.Equals("y") && !ilrejoue.Equals("no") && !ilrejoue.Equals("n"))
                 {
-                    Console.WriteLine("Vouliez vous rejouer ? [Yes|No]");
+                    gui.changerMessage("Vouliez vous rejouer ? [Yes|No]");
+                    //Console.WriteLine("Vouliez vous rejouer ? [Yes|No]");
                     ilrejoue = Console.ReadLine().ToLower();
                 }
                 repeat = ilrejoue;
