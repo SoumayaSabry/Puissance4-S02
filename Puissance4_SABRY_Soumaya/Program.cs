@@ -14,7 +14,6 @@ namespace Puissance4_SABRY_Soumaya
             gui.changerMessage(" PUISSANCE 4");
             gui.changerMessage("Nom du Joueur " + nombreDejoueur + " ==> ");
             string nomJoueur = Console.ReadLine();
-
             return nomJoueur;
         }
         static void AfficherMatrice(int[,] matrice)
@@ -185,7 +184,7 @@ namespace Puissance4_SABRY_Soumaya
                 gui.rafraichirGrille();
             }
         }
-        static void IA(Fenetre gui, int[,] matrice, int level)
+        static void IA(Fenetre gui, int[,] matrice, int level, bool IAsontDeux)
         {
             bool estChanger = false;
             Random rndOrdi = new Random();
@@ -194,68 +193,6 @@ namespace Puissance4_SABRY_Soumaya
             {
                 choiseOrdi = rndOrdi.Next(0,6);
                 #region reponse2
-                /*  if (level == 2 )
-                   {
-                       for (int colonne = (matrice.GetLength(1) - 1); colonne > 0; colonne--)
-                       {
-                           for (int ligne = (matrice.GetLength(0) - 1); ligne > 0; ligne--)
-                           {
-                              #region
-                              /* if (matrice[ligne, colonne] == 2)
-                                 {
-                                     if (2 == matrice[ligne, (colonne - 1)])
-                                     {
-                                         if (2 == matrice[(ligne - 1), colonne])
-                                         {
-                                             choiseOrdi = (colonne - 1);
-                                         }
-                                     }
-                                 }
-                            if (matrice[ligne, colonne] == 2)
-                             {
-                                 if (2 == matrice[ligne, (colonne - 1)])
-                                 {
-                                     if (2 == matrice[(ligne - 1), (colonne - 1)])
-                                     {
-                                         choiseOrdi = colonne;
-                                     }
-                                 }
-                             }
-                            if (matrice[ligne, colonne] == 2)
-                                 {
-                                     if (2 == matrice[ligne, (colonne - 1)])
-                                     {
-                                         choiseOrdi = colonne;
-                                     }
-                                 }
-                           if (matrice[ligne, colonne] == 2)
-                            {
-                                if (2 == matrice[(ligne - 1), colonne])
-                                {
-                                    choiseOrdi = (colonne - 1);
-                                }
-                            }//
-                              if (checkColumns(matrice, ligne, colonne, 2) && checkLignes(matrice, ligne, colonne, 2))
-                                       choiseOrdi = colonne - 1;
-
-                              if (checkLignes(matrice, ligne, colonne, 2))
-                                  {
-                                      choiseOrdi = colonne + 1;
-                                  }
-                               #endregion
-                               AfficherMatrice(matrice);
-                               Console.Write(matrice[ligne, colonne]);
-                              if (matrice[ligne, colonne] == 2)
-                              {
-                                  choiseOrdi = colonne;
-                              }
-                          }
-                       }
-                   }
-      */
-                #endregion
-                #region reponse2Ver2
-                bool sontDeux = false;
                 if (level == 2)
                 {
                     for (int colonne = (matrice.GetLength(1) - 1); colonne > 0; colonne--)
@@ -282,21 +219,10 @@ namespace Puissance4_SABRY_Soumaya
                                     choiseOrdi = colonne + 1;
                                 }
                                 
-                                else if (sontDeux == false &&matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 0)
+                                else if (IAsontDeux == false && matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 0)
                                 {
                                     choiseOrdi = colonne;
-                                    sontDeux = true;
                                 }
-                                //{
-                                //    if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 0 && matrice[ligne, (colonne - 1)] == 0 && matrice[(ligne - 1), (colonne - 1)] == 0)
-                                //    {
-                                //        choiseOrdi = colonne ;
-                                //    }
-                                //    //else if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 0 && matrice[ligne, (colonne + 1)] == 0 && matrice[(ligne - 1), (colonne + 1)] == 0)
-                                //    //{
-                                //    //    choiseOrdi = colonne + 1;
-                                //    //}
-                                //}
                             }
                         }
                     }
@@ -309,15 +235,37 @@ namespace Puissance4_SABRY_Soumaya
                     {
                         for (int ligne = (matrice.GetLength(0) - 1); ligne > 0; ligne--)
                         {
-
-                             if (matrice[ligne, colonne] == 1 && matrice[(ligne - 1), colonne] == 1 && matrice[ligne, (colonne - 1)] == 1 && matrice[(ligne - 1), (colonne - 1)] == 0)
+                            if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 2 && matrice[ligne, (colonne - 1)] == 2 && matrice[(ligne - 1), (colonne - 1)] == 0)
                             {
                                 choiseOrdi = colonne - 1;
                             }
-                            if (matrice[ligne, colonne] == 1 && matrice[(ligne-1), colonne] == 1 && matrice[ligne, (colonne +1)] == 1 && matrice[(ligne - 1), (colonne + 1)] == 0)
+                            else if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 2 && matrice[ligne, (colonne + 1)] == 2 && matrice[(ligne - 1), (colonne + 1)] == 0)
                             {
-                                choiseOrdi = colonne+1;
+                                choiseOrdi = colonne + 1;
                             }
+                            else
+                            {
+                                if (matrice[ligne, colonne] == 1 && matrice[(ligne - 1), colonne] == 1 && matrice[ligne, (colonne - 1)] == 1 && matrice[(ligne - 1), (colonne - 1)] == 0)
+                                {
+                                    choiseOrdi = colonne - 1;
+                                }
+                                else if (matrice[ligne, colonne] == 1 && matrice[(ligne - 1), colonne] == 1 && matrice[ligne, (colonne + 1)] == 1 && matrice[(ligne - 1), (colonne + 1)] == 0)
+                                {
+                                    choiseOrdi = colonne + 1;
+                                }
+                                else
+                                {
+                                    if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 2 && matrice[ligne, (colonne - 1)] == 2 && matrice[(ligne - 1), (colonne - 1)] == 0)
+                                    {
+                                        choiseOrdi = colonne - 1;
+                                    }
+                                    else if (matrice[ligne, colonne] == 2 && matrice[(ligne - 1), colonne] == 2 && matrice[ligne, (colonne + 1)] == 2 && matrice[(ligne - 1), (colonne + 1)] == 0)
+                                    {
+                                        choiseOrdi = colonne + 1;
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
@@ -342,19 +290,18 @@ namespace Puissance4_SABRY_Soumaya
 
 
         }
-        static void ChoiseDuNiveau(Fenetre gui, int[,] matrice, string nomJoueur2, int reponse)
+        static void ChoiseDuNiveau(Fenetre gui, int[,] matrice, string nomJoueur2, int reponse, bool IAsontDeux)
         {
-
             switch (reponse)
             {
                 case 1:
-                    IA(gui, matrice, reponse);
+                    IA(gui, matrice, reponse, IAsontDeux);
                     break;
                 case 2:
-                    IA(gui, matrice, reponse);
+                    IA(gui, matrice, reponse, IAsontDeux);
                     break;
                 case 3:
-                    IA(gui, matrice, reponse);
+                    IA(gui, matrice, reponse,IAsontDeux);
                     break;
             }
         }
@@ -370,29 +317,6 @@ namespace Puissance4_SABRY_Soumaya
                 Console.WriteLine("Erreur");
             }
             return reponse;
-        }
-        static bool checkColumns(int[,] matrice, int ligne, int colonne, int value)
-        {
-            Console.WriteLine("Columns"+ligne+","+colonne);
-            bool result = false;
-            if (value == matrice[ligne, colonne] && matrice[ligne, (colonne - 1)] == value)
-            {
-                result = true;
-                Console.WriteLine(result);
-            }
-            return result;
-        }
-        static bool checkLignes(int[,] matrice, int ligne, int colonne, int value)
-        {
-            Console.WriteLine("Lignes "+ ligne + "," + colonne);
-
-            bool result = false;
-            if (matrice[ligne, colonne] == matrice[ligne - 1, colonne] && matrice[ligne, colonne] == value)
-            {
-                result = true;
-                Console.WriteLine(result);
-            }
-            return result;
         }
         [System.STAThreadAttribute()]
         static void Main(string[] args)
@@ -424,16 +348,17 @@ namespace Puissance4_SABRY_Soumaya
                         reponse2=TryCatch();
                         nomJoueur1 = Interface(gui, 1);
                         nomJoueur2 = "PC";
-                        gui.changerMessage("Appuyer sue ENTRE pour Commancer....");
+                        gui.changerMessage("Appuyer sue ENTRE pour Commencer....");
                         Console.ReadKey();
                         break;
                     case 2:
                         nomJoueur1 = Interface(gui, 1);
                         nomJoueur2 = Interface(gui, 2);
-                        gui.changerMessage("Appuyer sue ENTRE pour Commancer....");
+                        gui.changerMessage("Appuyer sue ENTRE pour Commencer....");
                         Console.ReadKey();
                         break;
                 }
+                bool IAsontDeux = false;
                 while (compteur != 42 && estgagant == false && (reponse==2 || reponse == 1 ))
                 {
                     DemendeJoueur(matriceGame, nomJoueur1, gui, 1);
@@ -445,7 +370,7 @@ namespace Puissance4_SABRY_Soumaya
                         switch (reponse)
                         {
                             case 1:
-                                ChoiseDuNiveau(gui, matriceGame, nomJoueur2, reponse2);
+                                ChoiseDuNiveau(gui, matriceGame, nomJoueur2, reponse2, IAsontDeux);
                                 break;
                             case 2:
                                 DemendeJoueur(matriceGame, nomJoueur2, gui, 2);
@@ -459,7 +384,16 @@ namespace Puissance4_SABRY_Soumaya
                     {
                         gui.changerMessage("PARTIE NULL ");
                     }
-
+                    for (int colonne = (matriceGame.GetLength(1) - 1); colonne > 0; colonne--)
+                    {
+                        for (int ligne = (matriceGame.GetLength(0) - 1); ligne > 0; ligne--)
+                        {
+                            if (matriceGame[ligne, colonne] == matriceGame[(ligne - 1), colonne] && matriceGame[ligne, colonne] ==2 )
+                            {
+                                IAsontDeux = true;
+                            }
+                        }
+                    }
                 }
                 string ilrejoue = " ";
                 while (!ilrejoue.Equals("yes") && !ilrejoue.Equals("y") && !ilrejoue.Equals("no") && !ilrejoue.Equals("n"))
@@ -471,9 +405,7 @@ namespace Puissance4_SABRY_Soumaya
                 repeat = ilrejoue;
             }
 
-            Console.ReadKey();
+         //   Console.ReadKey();
         }
-
-
     }
 }
